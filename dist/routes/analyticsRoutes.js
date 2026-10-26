@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const analyticsController_1 = require("../controllers/analyticsController");
+const authMiddleware_1 = require("../middleware/authMiddleware");
+const router = (0, express_1.Router)();
+router.use(authMiddleware_1.requireAuth);
+router.get('/clipper', (0, authMiddleware_1.requireRole)(['CLIPPER']), analyticsController_1.getClipperAnalytics);
+router.get('/business', (0, authMiddleware_1.requireRole)(['BUSINESS']), analyticsController_1.getBusinessAnalytics);
+router.get('/campaigns/:id', (0, authMiddleware_1.requireRole)(['BUSINESS']), analyticsController_1.getCampaignAnalytics);
+router.get('/submissions/:id', analyticsController_1.getSubmissionAnalytics);
+exports.default = router;
